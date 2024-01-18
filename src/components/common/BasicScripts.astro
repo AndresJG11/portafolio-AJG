@@ -1,0 +1,28 @@
+---
+
+---
+
+<script is:inline>
+
+function attachEvent(selector, event, fn) {
+    const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        elem.addEventListener(event, (e) => fn(e, elem), false);
+      });
+    }
+  }
+
+attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
+    document.documentElement.classList.toggle('dark');
+    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+});
+
+attachEvent('[toggle-language]', 'click', function () {
+    const toggle_value = document.getElementById("language_button").value == 'ES' ? 'EN' : 'ES'
+    // document.getElementById("language_button").innerText = toggle_value
+    // document.getElementById("language_button").value = toggle_value
+    // localStorage.language = toggle_value;
+});
+
+</script>

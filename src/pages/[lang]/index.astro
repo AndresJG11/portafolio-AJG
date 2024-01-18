@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+
+export function getStaticPaths () {
+ return [
+    {params: {lang: 'en'}},
+    {params: {lang: 'es'}},
+  ];
+}
+
+const { lang } = Astro.params;
+
+---
+
+<Base title="Andrés Jiménez García - Data Scientist">
+	<main>
+		
+	</main>
+</Base>
