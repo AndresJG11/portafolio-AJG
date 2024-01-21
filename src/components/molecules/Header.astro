@@ -1,0 +1,118 @@
+---
+
+import { Icon } from 'astro-icon/components';
+
+import {
+  useTranslations,
+} from "../../data/i18n/utils";
+import ThemeButton from '../atoms/ThemeButton.astro';
+import LanguageButton from '../atoms/LanguageButton.astro';
+import LogoAJG from '../atoms/LogoAJG.astro';
+
+export function getStaticPaths () {
+ return [
+    {params: {lang: 'en'}},
+    {params: {lang: 'es'}},
+  ];
+}
+
+const { lang } = Astro.params;
+
+const t = useTranslations(lang as "es" | "en");
+
+const items = [
+    {
+        label: t("header.label_home"),
+        href: "#hola",
+    },
+    {
+        label: t("header.label_research"),
+        href: "#hola2",
+    },
+    {
+        label: t("header.label_publications"),
+        href: "#hola3",
+    },
+    {
+        label: t("header.label_blogs"),
+        href: "#hola4",
+    },
+];
+---
+
+<div class="w-full h-fit">
+    <!-- PC MENU -->
+    <nav class="hidden w-full h-16 justify-around px-36 lg:flex">
+        <div class="w-2/12 my-auto">
+            <LogoAJG />
+        </div>
+        <div class="inline-flex flex-row w-6/12 justify-around items-center">
+            {items.map((item) => <a class="cursor-pointer" href={item.href}>{item.label}</a>)}
+        </div>
+        <div class="w-2/12 inline-flex justify-end items-center">
+            <ThemeButton />
+            <LanguageButton />
+
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+
+    <nav 
+      class='py-10 px-5 flex justify-between text-lg z-50 lg:hidden'
+      x-data='{ isOpen: true }'
+    >
+    
+    <LogoAJG />
+    
+    <div class="flex w-5/12 justify-around">
+      <ThemeButton />
+      <LanguageButton  />
+      
+            <!-- Mobile menu button-->
+            <button
+              type="button"
+              x-on:click='isOpen = !isOpen'
+              aria-controls='mobile-menu'
+              aria-expanded='false'
+            >
+
+              <Icon
+                x-bind:class="{'hidden': isOpen, 'block': !isOpen }"
+                class='block h-8 w-8'
+                aria-hidden='true'
+                name='mdi:menu'
+              />
+              <Icon
+                x-bind:class="{'block': isOpen, 'hidden': !isOpen }"
+                class='hidden h-8 w-8'
+                aria-hidden='true'
+                name='mdi:close-box'
+              />
+            </button>
+
+          </div>
+        
+        <div
+          x-show='isOpen'
+          x-cloak
+          x-transition:enter='animate-fade-down animate-duration-500 animate-ease-linear'
+          x-transition:enter-start='opacity-0 scale-95'
+          x-transition:enter-end='opacity-100 scale-100'
+          x-transition:leave='transition ease-in-out duration-700 transform'
+          x-transition:leave-start='opacity-100 scale-100'
+          x-transition:leave-end='opacity-0 scale-95'
+          class='fixed inset-0 top-24 z-40 bg-red-500'
+          id='mobile-menu'
+          >
+            {
+              items.map(
+                (item) => 
+                  <a class="block" href={item.href}> {item.label} </a>
+              )
+            }
+        </div>
+        
+      </nav>
+      
+    </div>

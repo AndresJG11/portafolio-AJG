@@ -1,0 +1,22 @@
+---
+export function getStaticPaths () {
+ return [
+    {params: {lang: 'en'}},
+    {params: {lang: 'es'}},
+  ];
+}
+
+interface Props {
+  readonly class?: string;
+}
+
+const { lang } = Astro.params;
+const { class: className } = Astro.props;
+
+const nextPage =
+  lang === "es"
+    ? Astro.url.pathname.replace('/es', '/en')
+    : Astro.url.pathname.replace(`/en`, "/es")
+---
+
+<a class:list={[className]} toggle-language href={nextPage} > {lang!.toUpperCase()} </a>
